@@ -126,7 +126,8 @@ pip install -r requirements.txt
 ### Kali Linux / Ubuntu
 
 ```bash
-python run.py
+python run.py --no-ssl &
+
 ```
 
 Open browser:
