@@ -123,6 +123,8 @@ pip install -r requirements.txt
 
 ## Run Application
 
+### Kali Linux / Ubuntu
+
 ```bash
 python run.py
 ```
@@ -135,15 +137,68 @@ http://127.0.0.1:5000
 
 ---
 
+## Running in Termux (Android)
+
+### Install Required Packages
+
+```bash
+pkg update && pkg upgrade
+pkg install python git nano
+```
+
+### Clone Repository
+
+```bash
+git clone https://github.com/venkat9245/soc-url-investigator.git
+cd soc-url-investigator
+```
+
+### Create Virtual Environment
+
+```bash
+python -m venv venv
+source venv/bin/activate
+```
+
+### Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+### Run Application
+
+```bash
+python run.py
+```
+
+### Access Local Server
+
+Open browser:
+
+```text
+http://127.0.0.1:5000
+```
+
+### Grant Storage Permission (Optional)
+
+```bash
+termux-setup-storage
+```
+
+```
+
+---
+
 ## Future Enhancements
 
-* VirusTotal API integration
-* AI-powered URL classification
-* Real-time threat feeds
-* Docker deployment
-* PostgreSQL migration
-* SIEM integration
-* Multi-user SOC collaboration
+- VirusTotal API integration
+- AI-powered URL classification
+- Real-time threat feeds
+- Docker deployment
+- PostgreSQL migration
+- SIEM integration
+- Multi-user SOC collaboration
 
 ---
 
@@ -182,8 +237,7 @@ This project is licensed under the MIT License.
 ## Author
 
 Developed by Venkat9245
-
-````
+```
 
 ---
 
@@ -213,7 +267,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-````
+```
 
 ---
 
