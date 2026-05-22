@@ -1,0 +1,98 @@
+{% extends "layouts/base.html" %}
+{% block title %}Settings - SOC URL Investigator{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1 class="h4 mb-0"><i class="fas fa-cog text-danger"></i> Threat Intelligence Settings</h1>
+    <a href="{{ url_for('main.index') }}" class="btn btn-sm btn-outline-secondary"><i class="fas fa-arrow-left"></i> Dashboard</a>
+</div>
+
+<div class="alert alert-info">
+    <i class="fas fa-info-circle"></i> Configure API keys for threat intelligence services.
+    Keys are stored encrypted in the database. Only enabled services will be queried during analysis.
+</div>
+
+<div class="row">
+    {% for key in keys %}
+    <div class="col-md-6 mb-3">
+        <div class="card border-secondary">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span>
+                    {% if key.service == 'virustotal' %}<i class="fab fa-virus text-danger"></i>
+                    {% elif key.service == 'urlscan' %}<i class="fas fa-globe text-info"></i>
+                    {% elif key.service == 'abuseipdb' %}<i class="fas fa-database text-warning"></i>
+                    {% elif key.service == 'alienvault_otx' %}<i class="fas fa-shield text-success"></i>
+                    {% endif %}
+                    {{ key.service|capitalize }}
+                </span>
+                <span class="badge bg-{{ 'success' if key.is_enabled else 'secondary' }}">
+                    {{ 'Active' if key.is_enabled else 'Disabled' }}
+                </span>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('settings.update') }}">
+                    <input type="hidden" name="service" value="{{ key.service }}">
+                    <div class="mb-3">
+                        <label class="form-label small">API Key</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" name="api_key" 
+                                   value="{{ key.api_key }}" placeholder="Enter your {{ key.service }} API key">
+                            <button class="btn btn-outline-secondary toggle-visibility" type="button">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="form-text text-muted small">
+                            {% if key.api_key and key.api_key|length > 8 %}
+                            Key configured ({{ key.api_key[:8] }}...{{ key.api_key[-4:] }})
+                            {% else %}
+                            No key configured
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="form-check mb-3">
+                        <input class="form-check-input" type="checkbox" name="is_enabled" id="enable_{{ key.service }}"
+                               {% if key.is_enabled %}checked{% endif %}>
+                        <label class="form-check-label small" for="enable_{{ key.service }}">
+                            Enable {{ key.service }} lookups
+                        </label>
+                    </div>
+                    <button type="submit" class="btn btn-danger btn-sm w-100">
+                        <i class="fas fa-save"></i> Save
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<div class="card border-secondary mt-2">
+    <div class="card-header"><i class="fas fa-link"></i> Get API Keys</div>
+    <div class="card-body small">
+        <ul class="mb-0">
+            <li><strong>VirusTotal</strong> — <a href="https://www.virustotal.com/gui/join" target="_blank" class="text-info">virustotal.com</a> (free tier: 500 requests/day)</li>
+            <li><strong>URLScan.io</strong> — <a href="https://urlscan.io/user/signup" target="_blank" class="text-info">urlscan.io</a> (free tier: 50 requests/month)</li>
+            <li><strong>AbuseIPDB</strong> — <a href="https://www.abuseipdb.com/register" target="_blank" class="text-info">abuseipdb.com</a> (free tier: 1000 requests/day)</li>
+            <li><strong>AlienVault OTX</strong> — <a href="https://otx.alienvault.com/" target="_blank" class="text-info">otx.alienvault.com</a> (free)</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.querySelectorAll('.toggle-visibility').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const input = this.closest('.input-group').querySelector('input');
+        const icon = this.querySelector('i');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.className = 'fas fa-eye-slash';
+        } else {
+            input.type = 'password';
+            icon.className = 'fas fa-eye';
+        }
+    });
+});
+</script>
+{% endblock %}
