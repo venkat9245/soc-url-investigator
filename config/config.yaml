@@ -1,0 +1,50 @@
+app:
+  name: SOCUrlInvestigator
+  version: 1.0.0
+  secret_key: "CHANGE-ME-LATER"
+  debug: false
+  host: 0.0.0.0
+  port: 8443
+
+database:
+  path: data/soc_url.db
+  backup_dir: backups/
+
+analysis:
+  max_urls_per_batch: 50
+  request_timeout: 30
+  max_redirects: 5
+  user_agent: "SOCUrlInvestigator/1.0 (Security Analysis Bot)"
+  screenshot_timeout: 15
+
+threat_intel:
+  virustotal:
+    api_key: ""
+    base_url: "https://www.virustotal.com/api/v3"
+  urlscan:
+    api_key: ""
+  abuseipdb:
+    api_key: ""
+  alienvault_otx:
+    api_key: ""
+
+scoring:
+  weights:
+    virustotal_detections: 40
+    urlscan_malicious: 25
+    abuseipdb_reports: 15
+    domain_age_days: 10
+    tld_risk: 5
+    ssl_valid: 5
+  thresholds:
+    critical: 80
+    high: 60
+    medium: 40
+    low: 20
+
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: logs/soc_url_investigator.log
+  max_size_mb: 50
+  backup_count: 5
