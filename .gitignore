@@ -1,8 +1,0 @@
-venv/
-*.db
-data/
-__pycache__/
-*.pyc
-logs/*.log
-config/config.yaml
-.env
