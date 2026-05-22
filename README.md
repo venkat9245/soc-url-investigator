@@ -136,7 +136,23 @@ http://127.0.0.1:5000
 ```
 
 ---
+---
 
+## Default Login Credentials
+
+Use the following demo credentials for local testing:
+
+```text
+Username: admin
+Password: S0C_Admin_2026!
+```
+
+⚠️ Important:
+- Change default credentials before production deployment.
+- Never expose real administrative credentials publicly.
+- Use environment variables or secure secret management for production systems.
+
+---
 ## Running in Termux (Android)
 
 ### Install Required Packages
